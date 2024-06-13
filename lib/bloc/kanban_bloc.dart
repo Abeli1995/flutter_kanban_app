@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../model/deal_model.dart';
+import '../model/stage_model.dart';
 import 'kanban_event.dart';
 import 'kanban_state.dart';
 
@@ -19,7 +18,6 @@ class KanbanBloc extends Bloc<KanbanEvent, KanbanState> {
   }
 
   List<Stage> _fetchStages() {
-    // Здесь ваш JSON-декодированный объект
     final jsonData = {
       "stages": [
         {

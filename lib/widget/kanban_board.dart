@@ -5,6 +5,7 @@ import '../bloc/kanban_bloc.dart';
 import '../bloc/kanban_event.dart';
 import '../bloc/kanban_state.dart';
 import '../model/deal_model.dart';
+import '../model/stage_model.dart';
 
 class KanbanBoard extends StatelessWidget {
   @override
@@ -63,9 +64,18 @@ class KanbanColumn extends StatelessWidget {
         children: [
           Container(
             padding: EdgeInsets.all(8.0),
-            child: Text(
-              stage.title,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  stage.title,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  '${stage.dealsCount} карточек',
+                  style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                ),
+              ],
             ),
           ),
           ...stage.deals.map((deal) => KanbanCard(deal: deal)).toList(),

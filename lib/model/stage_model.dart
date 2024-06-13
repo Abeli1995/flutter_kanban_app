@@ -21,4 +21,6 @@ class Stage {
       deals: deals,
     );
   }
+
+  int get dealsCount => deals.length;
 }

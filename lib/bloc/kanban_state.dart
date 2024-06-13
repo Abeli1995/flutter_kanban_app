@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-import '../model/deal_model.dart';
+import '../model/stage_model.dart';
+
 
 abstract class KanbanState extends Equatable {
   const KanbanState();
