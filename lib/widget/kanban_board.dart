@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../bloc/kanban_bloc.dart';
 import '../bloc/kanban_event.dart';
 import '../bloc/kanban_state.dart';
-import '../model/deal_model.dart';
-import '../model/stage_model.dart';
 import 'kanban_column.dart';
 
 class KanbanBoard extends StatelessWidget {

@@ -11,7 +11,7 @@ class KanbanColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 300,
-      margin: const EdgeInsets.all(8.0),
+      margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Colors.grey[200],
         borderRadius: BorderRadius.circular(8.0),
@@ -20,7 +20,9 @@ class KanbanColumn extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-                color: Colors.blue, borderRadius: BorderRadius.circular(12)),
+              color: Colors.lightBlue,
+              borderRadius: BorderRadius.circular(12),
+            ),
             padding: const EdgeInsets.all(10.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -39,7 +41,8 @@ class KanbanColumn extends StatelessWidget {
               ],
             ),
           ),
-          ...stage.deals.map((deal) => KanbanCard(deal: deal)).toList(),
+          // SizedBox(height: 10,),
+          ...stage.deals.map((deal) => KanbanCard(deal: deal)),
         ],
       ),
     );
