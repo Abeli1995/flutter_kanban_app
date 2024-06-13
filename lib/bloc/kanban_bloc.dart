@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../model/deal_model.dart';
 import '../model/stage_model.dart';
 import 'kanban_event.dart';
 import 'kanban_state.dart';
@@ -6,6 +7,7 @@ import 'kanban_state.dart';
 class KanbanBloc extends Bloc<KanbanEvent, KanbanState> {
   KanbanBloc() : super(KanbanLoading()) {
     on<LoadStages>(_onLoadStages);
+    on<MoveCardEvent>(_onMoveCardEvent);
   }
 
   void _onLoadStages(LoadStages event, Emitter<KanbanState> emit) {
@@ -14,6 +16,32 @@ class KanbanBloc extends Bloc<KanbanEvent, KanbanState> {
       emit(KanbanLoaded(stages));
     } catch (_) {
       emit(KanbanError());
+    }
+  }
+
+  //добавлено передвижение карточки
+  void _onMoveCardEvent(MoveCardEvent event, Emitter<KanbanState> emit) {
+    if (state is KanbanLoaded) {
+      final currentState = state as KanbanLoaded;
+      final fromStage = currentState.stages
+          .firstWhere((stage) => stage.id == event.fromStageId);
+      final toStage = currentState.stages
+          .firstWhere((stage) => stage.id == event.toStageId);
+      final deal =
+          fromStage.deals.firstWhere((deal) => deal.id == event.cardId);
+
+      final updatedDeal = Deal(
+        id: deal.id,
+        title: deal.title,
+        date: deal.date,
+        manager: deal.manager,
+        stageId: event.toStageId,
+      );
+
+      fromStage.deals.remove(deal);
+      toStage.deals.add(updatedDeal);
+
+      emit(KanbanLoaded(List.from(currentState.stages)));
     }
   }
 
