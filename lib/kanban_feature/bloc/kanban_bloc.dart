@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../model/stage_model.dart';
 import 'kanban_event.dart';
@@ -8,57 +10,21 @@ class KanbanBloc extends Bloc<KanbanEvent, KanbanState> {
     on<LoadStages>(_onLoadStages);
   }
 
-  void _onLoadStages(LoadStages event, Emitter<KanbanState> emit) {
+  void _onLoadStages(LoadStages event, Emitter<KanbanState> emit) async {
     try {
-      final stages = _fetchStages();
+      final stages = await _fetchStages();
       emit(KanbanLoaded(stages));
     } catch (_) {
       emit(KanbanError());
     }
   }
 
-  List<Stage> _fetchStages() {
-    final jsonData = {
-      "stages": [
-        {
-          "id": 1,
-          "title": "Стадия 1",
-          "deals": [
-            {
-              "id": 1,
-              "title": "Сделка 1",
-              "date": "15 мая",
-              "manager": "Иванов И.И."
-            },
-            {
-              "id": 2,
-              "title": "Сделка 2",
-              "date": "23 апреля",
-              "manager": "Петров П.П."
-            },
-            {
-              "id": 3,
-              "title": "Сделка 3",
-              "date": "01 июня",
-              "manager": "Сидоров С.С."
-            }
-          ]
-        },
-        {
-          "id": 2,
-          "title": "Стадия 2",
-          "deals": [
-            {
-              "id": 4,
-              "title": "Сделка 4",
-              "date": "05 июля",
-              "manager": "Кузнецов К.К."
-            }
-          ]
-        }
-      ]
-    };
-    var stagesList = jsonData['stages'] as List;
-    return stagesList.map((i) => Stage.fromJson(i)).toList();
+  Future<List<Stage>> _fetchStages() async {
+    final String response = await rootBundle.loadString('assets/stages.json');
+    final data = json.decode(response);
+    var stagesFromJson = data['stages'] as List;
+    List<Stage> stageList =
+        stagesFromJson.map((i) => Stage.fromJson(i)).toList();
+    return stageList;
   }
 }
