@@ -25,30 +25,38 @@ class KanbanView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<KanbanBloc, KanbanState>(
-      builder: (context, state) {
-        if (state is KanbanLoading) {
+    return FutureBuilder(
+      future: Future.delayed(const Duration(milliseconds: 200)),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (state is KanbanLoaded) {
-          return SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: state.stages
-                  .map((stage) => KanbanColumn(stage: stage))
-                  .toList(),
-            ),
-          );
         } else {
-          return const Center(
-            child: Text('Ошибка загрузки данных'),
+          return BlocBuilder<KanbanBloc, KanbanState>(
+            builder: (context, state) {
+              if (state is KanbanLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (state is KanbanLoaded) {
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: state.stages
+                        .map((stage) => KanbanColumn(stage: stage))
+                        .toList(),
+                  ),
+                );
+              } else {
+                return const Center(
+                  child: Text('Ошибка загрузки данных'),
+                );
+              }
+            },
           );
         }
       },
     );
   }
 }
-
-
-
