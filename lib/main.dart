@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_kanban_app/widget/kanban_board.dart';
+import 'kanban_feature/widget/kanban_board.dart';
 
 void main() {
   runApp(const MyApp());
